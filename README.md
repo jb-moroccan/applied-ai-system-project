@@ -2,16 +2,14 @@
 
 ## Project Summary
 
-In this project you will build and explain a small music recommender system.
+In this project I built and explained a small music recommender system.
 
-Your goal is to:
+The goal is to:
 
 - Represent songs and a user "taste profile" as data
 - Design a scoring rule that turns that data into recommendations
 - Evaluate what your system gets right and wrong
 - Reflect on how this mirrors real world AI recommenders
-
-Replace this paragraph with your own summary of what your version does.
 
 ---
 
@@ -79,35 +77,6 @@ You can add more tests in `tests/test_recommender.py`.
 Paste a sample of your recommender's output here as a text block so a reader can see what it produces:
 
 ```
-genre=pop, mood=happy, energy=0.8, likes_acoustic=False
-
-Profile: High Energy Pop 
-
-Sunrise City - Score: 7.98
-Because: Genre matches your favorite genre; Mood matches your favorite mood; Energy score: 0.98 (high match) based on proximity to your target energy; Acousticness matches your preference
-
-Gym Hero - Score: 5.87
-Because: Genre matches your favorite genre; Mood does not match your favorite mood; Energy score: 0.87 (high match) based on proximity to your target energy; Acousticness matches your preference
-
-Rooftop Lights - Score: 3.96
-Because: Genre does not match your favorite genre; Mood matches your favorite mood; Energy score: 0.96 (high match) based on proximity to your target energy; Acousticness matches your preference
-```
-
-**Screenshot or video** *(optional)*: <!-- Insert a screenshot or demo video link here -->
-
----
-
-## Experiments You Tried
-
-Use this section to document the experiments you ran. For example:
-
-- What happened when you changed the weight on genre from 2.0 to 0.5
-- What happened when you added tempo or valence to the score
-- How did your system behave for different types of users
-
----
-
-```
 Profile: High Energy Pop (genre=pop, mood=happy, energy=0.8, likes_acoustic=False)
 
 Sunrise City - Score: 7.98
@@ -144,6 +113,59 @@ Focus Flow - Score: 6.00
 Because: Genre matches your favorite genre; Mood does not match your favorite mood; Energy score: 1.00 (high match) based on proximity to your target energy; Acousticness matches your preference
 ```
 
+**Screenshot or video** *(optional)*: <!-- Insert a screenshot or demo video link here -->
+
+---
+
+## Experiments You Tried
+
+Use this section to document the experiments you ran. For example:
+
+- What happened when you changed the weight on genre from 2.0 to 0.5
+- What happened when you added tempo or valence to the score
+- How did your system behave for different types of users
+
+- I ran the experiment Weight Shift: Double the importance of energy and half the importance of genre. For the top 3 recommended songs, I still got the same 3 overall and for the High Energy Pop profile, the 2nd and 3rd choice songs swapped places. I feel like the weight shift makes the scores more accurate because it doesn't overweight genre anymore and makes energy the same weighting as the other 2 categories: genre and mood.
+
+```
+Profile: High Energy Pop
+
+Sunrise City - Score: 6.96
+Because: Genre matches your favorite genre; Mood matches your favorite mood; Energy score: 0.98 (high match) based on proximity to your target energy; Acousticness matches your preference
+
+Rooftop Lights - Score: 4.92
+Because: Genre does not match your favorite genre; Mood matches your favorite mood; Energy score: 0.96 (high match) based on proximity to your target energy; Acousticness matches your preference
+
+Gym Hero - Score: 4.74
+Because: Genre matches your favorite genre; Mood does not match your favorite mood; Energy score: 0.87 (high match) based on proximity to your target energy; Acousticness matches your preference
+
+
+Profile: Deep Intense Rock
+
+Storm Runner - Score: 6.98
+Because: Genre matches your favorite genre; Mood matches your favorite mood; Energy score: 0.99 (high match) based on proximity to your target energy; Acousticness matches your preference
+
+Gym Hero - Score: 4.94
+Because: Genre does not match your favorite genre; Mood matches your favorite mood; Energy score: 0.97 (high match) based on proximity to your target energy; Acousticness matches your preference
+
+Midnight Parade - Score: 2.88
+Because: Genre does not match your favorite genre; Mood does not match your favorite mood; Energy score: 0.94 (high match) based on proximity to your target energy; Acousticness matches your preference
+
+
+Profile: Chill Lofi
+
+Midnight Coding - Score: 6.96
+Because: Genre matches your favorite genre; Mood matches your favorite mood; Energy score: 0.98 (high match) based on proximity to your target energy; Acousticness matches your preference
+
+Library Rain - Score: 6.90
+Because: Genre matches your favorite genre; Mood matches your favorite mood; Energy score: 0.95 (high match) based on proximity to your target energy; Acousticness matches your preference
+
+Focus Flow - Score: 5.00
+Because: Genre matches your favorite genre; Mood does not match your favorite mood; Energy score: 1.00 (high match) based on proximity to your target energy; Acousticness matches your preference
+```
+
+---
+
 ## Limitations and Risks
 
 Summarize some limitations of your recommender.
@@ -155,6 +177,8 @@ Examples:
 - It might over favor one genre or mood
 
 You will go deeper on this in your model card.
+
+Some limitations of the recommender are the weighting of each category where genre is rated the highest and energy rated the lowest affecting the scoring algorithm. The catalog of 18 songs is limited in variety, making it difficult to find the best matches for certain user profiles.
 
 ---
 
@@ -169,5 +193,6 @@ Write 1 to 2 paragraphs here about what you learned:
 - about how recommenders turn data into predictions
 - about where bias or unfairness could show up in systems like this
 
+Real-world recommenders like Spotify and YouTube use data features to make predictions about what a user might like next. They look at things such as genre, mood, tempo, and user history, and they combine those signals to build a profile of the user’s preferences. The system then ranks songs or videos by how likely they are to be a good match, which is the step that turns raw input data into a recommendation.
 
-
+Bias can also appear in these systems when the data or scoring rules favor some groups or tastes more than others. If a system has more examples for one genre, one type of mood, or one kind of user behavior, it may over-recommend those options and make other users feel ignored. That is why the quality of the data and the design of the scoring logic matter so much in recommender systems.
