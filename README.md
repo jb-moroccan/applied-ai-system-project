@@ -35,6 +35,7 @@ You can include a simple diagram or bullet list if helpful.
 - UserProfile stores the favorite genre, favorite mood, target engery, and whether or not the user likes acoustics. This helps to determine a user's ideal song and helps the recommender to measure how far away a specific song is from the user's preference. 
 - The recommender computes a score by combining three different steps as an accumulated score. The first is category matches which are exact indicators. We set an indicator variable as 1 or 0 based on string matching along with multiplying the weights (4 for genre, 2 for mood) to get a point value while also appending the reason for a score to the reasons list. The second part is the numerical closeness of a song to the user's preference. This is decided by taking the user's energy distance (abs(song energy - preferred energy)) and calculate the proximity score (1-energy distance) * weight of energy (1) while also appending the reason to the reasons list. The third step is for acoustics, if a user likes acoustics, 1 point is added when the track has an acoustic value >= .5 and if a user dislikes acoustics, 1 point is added when the track has an acoustic value < .5. These 3 point values are combined for a total score along with the reasons for the score.
 - The songs with the highest point values are going to be the songs recommended first since these are the best matches to the user's preferences. We can then filter on a certain amount of top songs if desired.
+- Potential biases in this system include over-prioritizing genre over mood since genre gets a weight of 4 and mood gets 2, giving a strong advantage to exact matches while under-valuing near misses, and making acousticness decisions with a simple threshold that may feel overly rigid. The model may also favor songs that are safe and similar to the profile rather than more exploratory recommendations, and because it is built from a small handcrafted dataset, it may reflect the dataset’s quirks more than broader listening preferences.
 
 ---
 
@@ -78,12 +79,18 @@ You can add more tests in `tests/test_recommender.py`.
 Paste a sample of your recommender's output here as a text block so a reader can see what it produces:
 
 ```
-# e.g.:
-# User profile: genre=indie, mood=chill, energy=low
-# Recommendations:
-#   1. ...
-#   2. ...
-#   3. ...
+User profile: genre=pop, mood=happy, energy=0.8, likes_acoustic=True
+
+Top recommendations:
+
+Sunrise City - Score: 6.98
+Because: Genre matches your favorite genre; Mood matches your favorite mood; Energy score: 0.98 based on proximity to your target energy; Acousticness does not match your preference
+
+Gym Hero - Score: 4.87
+Because: Genre matches your favorite genre; Mood does not match your favorite mood; Energy score: 0.87based on proximity to your target energy; Acousticness does not match your preference
+
+Rooftop Lights - Score: 2.96
+Because: Genre does not match your favorite genre; Mood matches your favorite mood; Energy score: 0.96based on proximity to your target energy; Acousticness does not match your preference
 ```
 
 **Screenshot or video** *(optional)*: <!-- Insert a screenshot or demo video link here -->

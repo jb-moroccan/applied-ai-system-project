@@ -8,17 +8,40 @@ You will implement the functions in recommender.py:
 - score_song
 - recommend_songs
 """
+#from recommender import load_songs, recommend_songs
 
-from recommender import load_songs, recommend_songs
+from pathlib import Path
+
+try:
+    from src.recommender import load_songs, recommend_songs
+except ImportError:
+    from recommender import load_songs, recommend_songs
 
 
 def main() -> None:
-    songs = load_songs("data/songs.csv") 
+    #songs = load_songs("data/songs.csv")
+    project_root = Path(__file__).resolve().parent.parent
+    songs_path = project_root / "data" / "songs.csv"
+    songs = load_songs(str(songs_path))
+    print(f"Loaded songs: {len(songs)}")
 
-    # Starter example profile
-    user_prefs = {"genre": "pop", "mood": "happy", "energy": 0.8}
+    # Taste profile for comparing songs by genre, mood, energy, and acousticness
+    '''
+    user_prefs = {
+        "favorite_genre": "rock",
+        "favorite_mood": "intense",
+        "target_energy": 0.9,
+        "likes_acoustic": False,
+    }
+    '''
+    user_prefs = {
+        "favorite_genre": "pop",
+        "favorite_mood": "happy",
+        "target_energy": 0.8,
+        "likes_acoustic": True,
+    }
 
-    recommendations = recommend_songs(user_prefs, songs, k=5)
+    recommendations = recommend_songs(user_prefs, songs, k=3)
 
     print("\nTop recommendations:\n")
     for rec in recommendations:
