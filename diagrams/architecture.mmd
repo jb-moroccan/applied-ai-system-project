@@ -1,0 +1,62 @@
+graph TD
+    A["📊 USER INPUT<br/>UserProfile<br/>- favorite_genre<br/>- favorite_mood<br/>- target_energy<br/>- likes_acoustic"]
+
+    B["🎵 DATA RETRIEVAL<br/>CSV Loader<br/>18 Songs from songs.csv<br/>Song attributes:<br/>genre, mood, energy,<br/>acousticness, etc."]
+
+    C["⚙️ SCORING ENGINE<br/>score_song function<br/>- Genre match: +4.0<br/>- Mood match: +2.0<br/>- Energy proximity: +1.0<br/>- Acousticness: +1.0<br/>Total: 0-8 base score"]
+
+    D["🎯 CONFIDENCE CALCULATOR<br/>calculate_confidence<br/>Averages 4 factors:<br/>- genre_match<br/>- mood_match<br/>- energy_distance<br/>- acousticness_match<br/>Output: 0-1 confidence"]
+
+    E["📈 CONSISTENCY TRACKER<br/>_get_consistency_score<br/>Stores score history<br/>across invocations<br/>Calculates variance<br/>Output: 0-1 consistency"]
+
+    F["🔍 SELF-CRITIQUE LOOP<br/>_apply_self_critique<br/>- Analyzes catalog stats<br/>- Evaluates low scores<br/>- Compares to alternatives<br/>- Generates feedback<br/>Adjusts base_score by<br/>0.7x - 1.0x multiplier"]
+
+    G["⭐ RELIABILITY RATING<br/>_rate_reliability<br/>Combines confidence<br/>+ consistency<br/>Output:<br/>EXCELLENT/GOOD/FAIR/LOW"]
+
+    H["📋 RECOMMENDATION SCORE<br/>RecommendationScore<br/>- song<br/>- base_score (original)<br/>- confidence<br/>- consistency_score<br/>- reliability_rating<br/>- critique_feedback<br/>- score_history"]
+
+    I["🏆 RANKING & SELECTION<br/>Sort by overall_rank_score<br/>overall_rank_score =<br/>base_score × 0.7 + 0.3 × confidence<br/>Return top K=3 songs"]
+
+    J["🧪 CONSISTENCY VALIDATOR<br/>run_consistency_validation<br/>- Run recommendations<br/>  multiple times<br/>- Track ranking stability<br/>- Detect volatility<br/>Output: variance metrics"]
+
+    K["📊 HUMAN EVALUATION<br/>- Review scores & reasons<br/>- Check consistency<br/>  across runs<br/>- Validate critique feedback<br/>- Assess catalog fit"]
+
+    L["✅ TEST SUITE<br/>12 unit tests<br/>- Confidence accuracy<br/>- Consistency tracking<br/>- Self-critique behavior<br/>- Filtering & ranking<br/>- Overall formula"]
+
+    M["📈 OUTPUT<br/>For each song:<br/>- Title & Artist<br/>- Base Score<br/>- Confidence %<br/>- Consistency %<br/>- Reliability Rating<br/>- Matching reasons<br/>- Critique feedback"]
+
+    A --> C
+    B --> C
+    C --> D
+    C --> E
+    D --> H
+    E --> H
+    C --> F
+    F --> H
+    D --> G
+    E --> G
+    G --> H
+    H --> I
+    I --> M
+    I --> J
+    J --> K
+    K -.->|Feedback| F
+    L -.->|Validates| C
+    L -.->|Validates| D
+    L -.->|Validates| E
+    L -.->|Validates| F
+    L -.->|Validates| I
+
+    style A fill:#e1f5ff
+    style B fill:#e1f5ff
+    style C fill:#fff3e0
+    style D fill:#fff3e0
+    style E fill:#fff3e0
+    style F fill:#f3e5f5
+    style G fill:#e8f5e9
+    style H fill:#fce4ec
+    style I fill:#fce4ec
+    style J fill:#f1f8e9
+    style K fill:#ffe0b2
+    style L fill:#c8e6c9
+    style M fill:#b3e5fc
